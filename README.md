@@ -62,7 +62,7 @@ curl --location --request POST 'http://127.0.0.1:8080/calculadora' \
 para elimiinar los datos de la sesion ejecute
 
 ```bash
-curl --location --request DELETE 'http://127.0.0.1:8080/calculadora?sesionId=Leonardo'
+curl --location --request DELETE 'http://127.0.0.1:8080/calculadora?sesionId=misesion'
 ```
 
 ### Pendientes
