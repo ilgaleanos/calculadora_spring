@@ -67,7 +67,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"sesionId\": \"Leonardo\",\n    \"valor\": \"{{$randomInt}}\"\n}",
+					"raw": "{\n    \"sesionId\": \"misesion\",\n    \"valor\": \"{{$randomInt}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -106,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"sesionId\": \"Leonardo\",\n    \"operador\": \"^\"\n}",
+					"raw": "{\n    \"sesionId\": \"misesion\",\n    \"operador\": \"^\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -147,7 +147,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{host}}/calculadora?sesionId=Leonardo",
+					"raw": "{{host}}/calculadora?sesionId=misesion",
 					"host": [
 						"{{host}}"
 					],
@@ -157,7 +157,7 @@
 					"query": [
 						{
 							"key": "sesionId",
-							"value": "Leonardo"
+							"value": "misesion"
 						}
 					]
 				}
