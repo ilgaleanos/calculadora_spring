@@ -15,6 +15,13 @@ El proyecto tiene principalmente dos contenedores un worker (código java) que r
 
 ![Alt text](./varios/arquitectura.png "a title")
 
+### Pruebas
+Para ejecutar las pruebas unitarias se debe ejecutar en el directorio raiz del código. Para la ejecución de las pruebas requieres Java 11 y gladle 6.8
+
+```bash
+./gradlew clean test
+```
+
 ### Despliegue
 Para poder ejecutar la aplicación necesitas tener instalado docker v20+ y docker-compose. El despliegue de la aplicación es meramente demostrativo y no es apto para entornos productivos.
 
