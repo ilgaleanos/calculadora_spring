@@ -30,16 +30,15 @@ public class CalculadoraRepository {
     }
 
 
-    public BigDecimal calcularAcumulado(String sessionId, Operador op) {
-        int puntero = 0;
+    public BigDecimal calcularAcumulado(String sessionId, Operador op, int bloque) {
+        int puntero;
         int ronda = 1;
-        int bloque = 20;
 
-        List<byte[]> memoriaPura = redisService.lRangeRedis(sessionId, puntero, ronda * bloque);
+        List<byte[]> memoriaPura = redisService.lRangeRedis(sessionId, 0, bloque);
         BigDecimal resultado = null;
 
         do {
-            BigDecimal resultadoParcial = reducer(op, memoriaPura);
+            BigDecimal resultadoParcial = reducer(op, memoriaPura, (ronda - 1) * bloque + memoriaPura.size());
             if (resultado == null) {
                 resultado = resultadoParcial;
             } else {
@@ -78,7 +77,7 @@ public class CalculadoraRepository {
     }
 
 
-    private BigDecimal reducer(Operador op, List<byte[]> memoriaPura) {
+    private BigDecimal reducer(Operador op, List<byte[]> memoriaPura, int maximasPosiciones) {
         int memoriaPuraSize = memoriaPura.size();
         if (memoriaPura.size() == 0) {
             return op.indentidad();
@@ -86,7 +85,13 @@ public class CalculadoraRepository {
 
         BigDecimal resultado = toDouble(memoriaPura.get(0));
         for (int index = 1; index < memoriaPuraSize; index++) {
-            resultado = op.operar(resultado, toDouble(memoriaPura.get(index)));
+            try {
+                resultado = op.operar(resultado, toDouble(memoriaPura.get(index)));
+            } catch (Exception err) {
+                throw new ArithmeticException("Error con el valor " + new String(
+                        memoriaPura.get(index), StandardCharsets.UTF_8
+                ) + " elemento numero: " + (maximasPosiciones - index + 1));
+            }
         }
 
         return resultado;

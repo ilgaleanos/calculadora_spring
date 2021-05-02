@@ -15,7 +15,7 @@ public class OperadorDivisionImplTest {
     private OperadorDivisionImpl operadorDivision;
 
     @Test
-    public void shouldReturnSumDiferentNumbers() throws Exception {
+    public void operar() throws Exception {
         double aDouble = 100 * Math.random();
         double bDouble = 100 * Math.random();
         BigDecimal a = new BigDecimal(String.valueOf(aDouble));

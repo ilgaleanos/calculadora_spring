@@ -1,48 +1,42 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.5'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'com.leonardo'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '11'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	//implementation 'org.springframework.boot:spring-boot-starter'
-	//testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	
-	implementation 'junit:junit:4.13.1'
-//	testImplementation 'junit:junit:4.13.1'
-	compile 'jstl:jstl:1.2'
+    implementation 'junit:junit:4.13.1'
+    compile 'jstl:jstl:1.2'
 
-	// SPRING
+    // SPRING
 
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.5'
-	// https://mvnrepository.com/artifact/org.springframework/spring-web
-	implementation group: 'org.springframework', name: 'spring-web', version: '5.3.6'
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.4.5'
+    // https://mvnrepository.com/artifact/org.springframework/spring-web
+    implementation group: 'org.springframework', name: 'spring-web', version: '5.3.6'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    implementation 'org.springframework.boot:spring-boot-starter'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// MIS DEPENDENCIAS
+    // MIS DEPENDENCIAS
 
-	// https://mvnrepository.com/artifact/com.dslplatform/dsl-json-processor
-	compile group: 'com.dslplatform', name: 'dsl-json-processor', version: '1.9.8'
-	// https://mvnrepository.com/artifact/com.dslplatform/dsl-json-java8
-	compile group: 'com.dslplatform', name: 'dsl-json-java8', version: '1.9.8'
-	// https://mvnrepository.com/artifact/redis.clients/jedis
-	compile group: 'redis.clients', name: 'jedis', version: '3.6.0'
+    // https://mvnrepository.com/artifact/com.dslplatform/dsl-json-processor
+    compile group: 'com.dslplatform', name: 'dsl-json-processor', version: '1.9.8'
+    // https://mvnrepository.com/artifact/com.dslplatform/dsl-json-java8
+    compile group: 'com.dslplatform', name: 'dsl-json-java8', version: '1.9.8'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    compile group: 'redis.clients', name: 'jedis', version: '3.6.0'
 }
 
 test {
-	useJUnitPlatform()
-	testLogging {
-		events "passed", "skipped", "failed"
-	}
+    useJUnitPlatform()
 }

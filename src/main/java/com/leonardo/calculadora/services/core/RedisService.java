@@ -26,9 +26,6 @@ public class RedisService {
     public byte[] getRedis(String key) {
         try (Jedis jedis = redisDriver.getConn()) {
             return jedis.get(key.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception err) {
-            logger.error("getRedis -> " + err.getMessage());
-            return null;
         }
     }
 
@@ -38,8 +35,6 @@ public class RedisService {
             byte[] byteKey = key.getBytes(StandardCharsets.UTF_8);
             resp = jedis.set(byteKey, datos);
             jedis.expire(byteKey, timeout);
-        } catch (Exception err) {
-            logger.error("setRedis -> " + err.getMessage());
         }
 
         return resp;
@@ -51,10 +46,6 @@ public class RedisService {
             byte[] byteKey = key.getBytes(StandardCharsets.UTF_8);
             resp = jedis.rpush(byteKey, datos);
             jedis.expire(byteKey, timeout);
-        } catch (Exception err) {
-            err.printStackTrace();
-            logger.error("rPushRedis -> " + err.getMessage());
-            return 0;
         }
 
         return resp > 0 ? 1 : 0;
@@ -63,18 +54,13 @@ public class RedisService {
     public List<byte[]> lRangeRedis(String key, int inicio, int fin) {
         try (Jedis jedis = redisDriver.getConn()) {
             return jedis.lrange(key.getBytes(StandardCharsets.UTF_8), inicio, fin);
-        } catch (Exception err) {
-            logger.error("lRangeRedis -> " + err.getMessage());
         }
-        return null;
     }
 
     public int delRedis(String key) {
         long resp = 0;
         try (Jedis jedis = redisDriver.getConn()) {
             resp = jedis.del(key);
-        } catch (Exception err) {
-            logger.error("delRedis -> " + err.getMessage());
         }
 
         return resp > 0 ? 1 : 0;

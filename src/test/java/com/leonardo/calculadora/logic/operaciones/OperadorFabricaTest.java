@@ -44,7 +44,7 @@ public class OperadorFabricaTest {
     @Test
     public void instanceofOperadorErrorImpl() {
         try {
-            Operador op = OperadorFabrica.obtenerInstancia("");
+            OperadorFabrica.obtenerInstancia("");
         } catch (InvalidParameterException err) {
             assertTrue(true);
         }

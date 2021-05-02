@@ -3,6 +3,7 @@ package com.leonardo.calculadora.controllers.operaciones;
 import com.leonardo.calculadora.logic.entradas.operaciones.AcumularIn;
 import com.leonardo.calculadora.logic.entradas.operaciones.EliminarIn;
 import com.leonardo.calculadora.logic.entradas.operaciones.OperarIn;
+import com.leonardo.calculadora.logic.operaciones.OperadorFabrica;
 import com.leonardo.calculadora.logic.respuestas.RespuestaEstandar;
 import com.leonardo.calculadora.services.core.FrameworkService;
 import com.leonardo.calculadora.services.operaciones.CalculadoraService;
@@ -38,7 +39,7 @@ public class CalculadoraController {
             method = RequestMethod.PUT,
             consumes = "application/json"
     )
-    public void acumular(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void agregar(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AcumularIn body = fw.getBody(req, AcumularIn.class);
         if (body == null || body.esInValido()) {
             fw.sendBadRequestJSON(req, resp, body);
@@ -46,11 +47,11 @@ public class CalculadoraController {
         }
 
         try {
-            int code = this.calculadoraService.acumular(body.getSesionId(), body.getValor());
+            int code = this.calculadoraService.agregar(body.getSesionId(), body.getValor());
             RespuestaEstandar respuestaEstandar = new RespuestaEstandar(code, "ok");
             fw.sendJSON(req, resp, respuestaEstandar);
         } catch (Exception err) {
-            fw.sendErrorJSON(req, resp);
+            fw.sendErrorJSON(req, resp, err);
         }
     }
 
@@ -68,11 +69,14 @@ public class CalculadoraController {
         }
 
         try {
-            BigDecimal respuesta = this.calculadoraService.operar(body.getSesionId(), body.getOperador());
-            RespuestaEstandar respuestaEstandar = new RespuestaEstandar(1, respuesta.toString());
+            BigDecimal respuesta = this.calculadoraService.operar(
+                    body.getSesionId(),
+                    OperadorFabrica.obtenerInstancia(body.getOperador())
+            );
+            RespuestaEstandar respuestaEstandar = new RespuestaEstandar(1, respuesta);
             fw.sendJSON(req, resp, respuestaEstandar);
         } catch (Exception err) {
-            fw.sendErrorJSON(req, resp);
+            fw.sendErrorJSON(req, resp, err);
         }
     }
 
@@ -89,7 +93,7 @@ public class CalculadoraController {
             RespuestaEstandar respuestaEstandar = new RespuestaEstandar(code, code == 1 ? "ok" : "fail");
             fw.sendJSON(req, resp, respuestaEstandar);
         } catch (Exception err) {
-            fw.sendErrorJSON(req, resp);
+            fw.sendErrorJSON(req, resp, err);
         }
     }
 }

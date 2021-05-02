@@ -25,7 +25,7 @@ class RespuestaEstandarTest {
 
 
     @Test
-    public void shouldEqualsConstructor() {
+    public void constructorCodeData() {
         RespuestaEstandar rs = new RespuestaEstandar(code, data);
         assertEquals("code", code, rs.getCode());
         assertEquals("data", data, rs.getData());
@@ -33,7 +33,7 @@ class RespuestaEstandarTest {
 
 
     @Test
-    public void shouldEqualsCode() {
+    public void constructorCode() {
         RespuestaEstandar rs = new RespuestaEstandar(code);
         rs.setData(data);
 
@@ -42,7 +42,7 @@ class RespuestaEstandarTest {
     }
 
     @Test
-    public void shouldEqualsParams() {
+    public void parametros() {
         RespuestaEstandar rs = new RespuestaEstandar();
         rs.setCode(code);
         rs.setData(data);

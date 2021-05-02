@@ -23,6 +23,10 @@ public class Serializador {
         dslJson.serialize(response, outputStream);
     }
 
+    public void serialize(Exception response, ServletOutputStream outputStream) throws IOException {
+        dslJson.serialize(response, outputStream);
+    }
+
     public <T> T deserialize(Class<T> acumularClass, ServletInputStream inputStream) throws IOException {
         return dslJson.deserialize(acumularClass, inputStream);
     }

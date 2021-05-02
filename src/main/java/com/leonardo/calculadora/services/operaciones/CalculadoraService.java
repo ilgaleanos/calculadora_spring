@@ -1,7 +1,6 @@
 package com.leonardo.calculadora.services.operaciones;
 
 import com.leonardo.calculadora.logic.operaciones.Operador;
-import com.leonardo.calculadora.logic.operaciones.OperadorFabrica;
 import com.leonardo.calculadora.repositories.operaciones.CalculadoraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +19,13 @@ public class CalculadoraService {
     }
 
 
-    public int acumular(String sesion, BigDecimal valor) {
+    public int agregar(String sesion, BigDecimal valor) {
         return this.calculadoraRepository.agregarMemoria(sesion, valor);
     }
 
 
-    public BigDecimal operar(String sesionId, String operacion) {
-        Operador op = OperadorFabrica.obtenerInstancia(operacion.trim());
-        return this.calculadoraRepository.calcularAcumulado(sesionId, op);
+    public BigDecimal operar(String sesionId, Operador operador) {
+        return this.calculadoraRepository.calcularAcumulado(sesionId, operador, 20);
     }
 
 

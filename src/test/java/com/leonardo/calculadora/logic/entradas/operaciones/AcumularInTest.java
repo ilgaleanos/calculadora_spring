@@ -20,7 +20,7 @@ public class AcumularInTest {
     private BigDecimal valor;
 
     @BeforeEach
-    public void before() {
+    public void setup() {
         this.valor = BigDecimal.valueOf(1000 * Math.random());
         this.sesionId = UUID.randomUUID().toString();
         acumularIn = new AcumularIn();

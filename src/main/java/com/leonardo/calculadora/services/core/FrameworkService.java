@@ -11,15 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 
 @Service
 public class FrameworkService {
 
-    private final static boolean ENABLE_CORS = true;
+    private final static boolean ENABLE_CORS = false;
     private static final String UTF8 = StandardCharsets.UTF_8.name();
-    private static final byte[] RESPONSE_ERROR_500 = "{\"success\":0,\"data\":\"internal server error\"}".getBytes(StandardCharsets.UTF_8);
-
+    private static final byte[] RESPONSE_ERROR_500 = "{\"code\":500,\"error\":\"internal server error\"}".getBytes(StandardCharsets.UTF_8);
+    private final static String ENVIRONMENT = System.getenv("ENVIRONMENT");
 
     private final Serializador serializador;
 
@@ -96,7 +97,7 @@ public class FrameworkService {
         resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         HashMap<String, Object> response = new HashMap<>();
-        response.put("success", 0);
+        response.put("code", 400);
         if (entrada != null) {
             Field[] parametros = entrada.getClass().getDeclaredFields();
             HashMap<String, String> campos = new HashMap<>(parametros.length);
@@ -117,13 +118,26 @@ public class FrameworkService {
     /**
      * Finaliza el intercambio HTTP con el string proporcionado y lo escribe en el response
      *
-     * @param req:  la petición enviada por el usuario, necesaria por seguridad
-     * @param resp: el actual puntero de intercambio http
+     * @param req     :  la petición enviada por el usuario, necesaria por seguridad
+     * @param resp    : el actual puntero de intercambio http
+     * @param message
      */
-    public void sendErrorJSON(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void sendErrorJSON(HttpServletRequest req, HttpServletResponse resp, Exception message) throws IOException {
         if (ENABLE_CORS) corsHeaders(req, resp);
         resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        if (ENVIRONMENT != null && ENVIRONMENT.equals("DEBUG")) {
+            HashMap<String, Object> hm = new HashMap<String, Object>();
+            hm.put("code", 0);
+            hm.put("error", message.getMessage());
+            hm.put("trace", Arrays.toString(message.getStackTrace()));
+            try (ServletOutputStream out = resp.getOutputStream()) {
+                serializador.serialize(hm, out);
+            }
+            return;
+        }
+
         try (ServletOutputStream out = resp.getOutputStream()) {
             out.write(RESPONSE_ERROR_500);
         }

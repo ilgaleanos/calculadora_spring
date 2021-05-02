@@ -15,7 +15,7 @@ public class OperadorPotenciaImplTest {
     private OperadorPotenciaImpl operadorPotencia;
 
     @Test
-    public void shouldReturnPotenciaDiferentNumbers() throws Exception {
+    public void operar() throws Exception {
         double aDouble = 10 * Math.random();
         int bInt = (int) (5 * Math.random());
         BigDecimal a = new BigDecimal(String.valueOf(aDouble));

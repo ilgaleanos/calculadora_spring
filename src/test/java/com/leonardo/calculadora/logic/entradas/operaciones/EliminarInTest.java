@@ -16,7 +16,7 @@ public class EliminarInTest {
 
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         this.sesionId = UUID.randomUUID().toString();
         eliminarIn = new EliminarIn();
     }
