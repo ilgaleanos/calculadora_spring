@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  redis:
+    image: "redis"
+    environment:
+      REDIS_PASS_FILE: /run/secrets/redis_password
+    command: [
+      "bash", "-c",
+      '
+        docker-entrypoint.sh
+        --requirepass "$$(cat $$REDIS_PASS_FILE)"
+      '
+    ]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/var/lib/redis/data
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    secrets:
+      - redis_password
+
+
+  api:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "8080:8080"
+    environment:
+      REDIS_HOST: redis
+      REDIS_PASS: /home/calculadora/api/redis_password.txt
+      TIMEOUT_MEMORY: 3600
+      ENVIRONMENT: PRODUCTION
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - redis
+    secrets:
+      - redis_password
+
+
+secrets:
+  redis_password:
+    file: redis_password.txt

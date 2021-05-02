@@ -14,9 +14,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * Esta clase es una clase de utilidades para manejar todas las peticiones, esto me brinda flexibilidad y rendimiento
+ * ya que empleo serializadores minimizando la necesidad de hacer copias del contenido del request y parseos a String
+ * innecesarios.
+ */
 @Service
 public class FrameworkService {
 
+    // si se necesita activar cors para web este es el parámetro se puede pasar al env pero aqui no suma
     private final static boolean ENABLE_CORS = false;
     private static final String UTF8 = StandardCharsets.UTF_8.name();
     private static final byte[] RESPONSE_ERROR_500 = "{\"code\":500,\"error\":\"internal server error\"}".getBytes(StandardCharsets.UTF_8);
@@ -149,7 +155,9 @@ public class FrameworkService {
      *=================================================================================================================*/
 
     /**
-     * Transforma el cuerpo de la petición a un Gson, por rendimiento pensado para peticiones con body pequeño
+     * Transforma el cuerpo de la petición a una clase establecida, elaborado a nivel medio de rendimiento
+     * podriamos crear los precompilados de las clases pero es innecesario ese nivel de optimizacion para esta tarea,
+     * con este nivel es suficiente parta esta tarea
      *
      * @param req           HttpServletRequest
      * @param acumularClass

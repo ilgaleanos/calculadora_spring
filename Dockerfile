@@ -17,10 +17,8 @@ RUN chown -R calculadora:calculadora /home/calculadora
 
 WORKDIR /home/calculadora/api/
 
-ENV TIMEOUT_MEMORY=3600 \
-PORT=8080
-
 COPY --from=builder /home/gradle/compile/build/libs/calculadora-1.0.0.jar .
+COPY --from=builder /home/gradle/compile/redis_password.txt .
 
 EXPOSE 8080
 

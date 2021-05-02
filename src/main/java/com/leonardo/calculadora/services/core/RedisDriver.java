@@ -23,10 +23,14 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.time.Duration;
 
 /**
- * Envolvente para redis
+ * Envolvente para redis usando la libreria Jedis, se debe pasar al configurador de la aplicacion
+ * pero de todas formas esta aproximación funciona correctamente
  */
 @Service
 public class RedisDriver {
@@ -34,6 +38,7 @@ public class RedisDriver {
     private static JedisPool pool = null;
     private static boolean iniciado = false;
     private final Logger logger = LoggerFactory.getLogger(RedisDriver.class);
+    private static String REDIS_PASS = "";
 
     /**
      * iniciar el pool
@@ -55,10 +60,25 @@ public class RedisDriver {
         poolConfig.setNumTestsPerEvictionRun(3);
         poolConfig.setBlockWhenExhausted(true);
 
-        // redis://pass@host:6379/0
-        pool = new JedisPool(poolConfig, "localhost");
-        iniciado = true;
+        File file = new File(System.getenv("REDIS_PASS"));
 
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            REDIS_PASS = br.readLine();
+            // agegamos 'algo' de seguridad al eliminar el archivo del contenedor
+            file.deleteOnExit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        pool = new JedisPool(poolConfig,
+                System.getenv("REDIS_HOST"),
+                6379,
+                3000,
+                REDIS_PASS,
+                false
+        );
+
+        iniciado = true;
         logger.info("+-------------------------------+");
         logger.info("|       Connected to Redis      |");
         logger.info("+-------------------------------+");
@@ -66,7 +86,9 @@ public class RedisDriver {
 
 
     /**
-     * @return conexion
+     * Cuando la conexion se ha iniciado ya no vuelve a la creacion sino que pasa directamente a entregar ua conexion
+     *
+     * @return una conexion del pool de redis
      */
     public Jedis getConn() {
         if (!iniciado) iniciar();

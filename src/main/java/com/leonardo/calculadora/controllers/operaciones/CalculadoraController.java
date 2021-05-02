@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-
+/**
+ * Clase de control de las funcionalidades de la calculadora
+ */
 @RestController
 public class CalculadoraController {
 
@@ -34,6 +36,13 @@ public class CalculadoraController {
         this.calculadoraService = calculadoraService;
     }
 
+    /**
+     * Esta función es la encargada de manejar la lógica de acumulacion de operandos
+     *
+     * @param req  servlet request
+     * @param resp servelt response
+     * @throws IOException lanzado cuando contenedor de servlets no pudo generar stream de salida
+     */
     @RequestMapping(
             value = "/calculadora",
             method = RequestMethod.PUT,
@@ -56,6 +65,13 @@ public class CalculadoraController {
     }
 
 
+    /**
+     * Esta función es la encargada de operar los operandos
+     *
+     * @param req  servlet request
+     * @param resp servelt response
+     * @throws IOException lanzado cuando contenedor de servlets no pudo generar stream de salida
+     */
     @RequestMapping(
             value = "/calculadora",
             method = RequestMethod.POST,
@@ -81,6 +97,13 @@ public class CalculadoraController {
     }
 
 
+    /**
+     * Esta función es la encargada de limpiar sesiones
+     *
+     * @param req  servlet request
+     * @param resp servelt response
+     * @throws IOException lanzado cuando contenedor de servlets no pudo generar stream de salida
+     */
     @RequestMapping(
             value = "/calculadora",
             method = RequestMethod.DELETE

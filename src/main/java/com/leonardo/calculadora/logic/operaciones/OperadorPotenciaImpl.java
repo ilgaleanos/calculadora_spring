@@ -14,6 +14,6 @@ public class OperadorPotenciaImpl implements Operador {
 
     @Override
     public BigDecimal indentidad() {
-        return BigDecimal.ZERO;
+        return BigDecimal.ONE;
     }
 }

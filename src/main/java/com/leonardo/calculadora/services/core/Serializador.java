@@ -10,6 +10,9 @@ import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ * En esta función implementamos el serializador de nuestras peticiones
+ */
 @Service
 public class Serializador {
     private final static DslJson.Settings<Object> settings = Settings.withRuntime().includeServiceLoader();
@@ -23,8 +26,8 @@ public class Serializador {
         dslJson.serialize(response, outputStream);
     }
 
-    public void serialize(Exception response, ServletOutputStream outputStream) throws IOException {
-        dslJson.serialize(response, outputStream);
+    public void serialize(Exception err, ServletOutputStream outputStream) throws IOException {
+        dslJson.serialize(err, outputStream);
     }
 
     public <T> T deserialize(Class<T> acumularClass, ServletInputStream inputStream) throws IOException {
